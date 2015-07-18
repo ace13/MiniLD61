@@ -6,6 +6,7 @@ set( HEADERS
 	State/MenuState.hpp
 	State/ScoreState.hpp
 	State/StateManager.hpp
+	Util/Easing.hpp
 	Util/Font.hpp
 	Util/Profiling.hpp
 )
@@ -18,6 +19,7 @@ set( SOURCES
 	State/MenuState.cpp
 	State/ScoreState.cpp
 	State/StateManager.cpp
+	Util/Easing.cpp
 	Util/Font.cpp
 	Util/Profiling.cpp
 
