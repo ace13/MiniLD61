@@ -20,5 +20,6 @@ void IntroState::variadic_update(float dt)
 }
 void IntroState::draw(sf::RenderTarget& target)
 {
-
+	// Draw intro scene
 }
+

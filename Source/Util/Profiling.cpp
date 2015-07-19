@@ -1,17 +1,28 @@
 #include "Profiling.hpp"
 
-#include <SFML/System/Clock.hpp>
-
 #include <iomanip>
 #include <iostream>
 
+#ifdef SFML_CLOCK
+#include <SFML/System/Clock.hpp>
+#endif
+
 namespace
 {
-	sf::Clock ProfilingTimer;
-
+#ifdef SFML_CLOCK
+	sf::Clock _ProfilingClock;
+#endif
 	Profiler::Node ProfilingRoot("root");
 	Profiler::Node* sCurNode = &ProfilingRoot;
 }
+
+#ifdef SFML_CLOCK
+const bool Profiler::Clock::is_steady = true;
+Profiler::Clock::time_point Profiler::Clock::now()
+{
+	return time_point(duration(_ProfilingClock.getElapsedTime().asMicroseconds()));
+}
+#endif
 
 void Profiler::startBlock(const std::string& name)
 {
@@ -79,16 +90,16 @@ void Profiler::Node::startCall()
 	mCallCount++;
 	if (mRecursion++ == 0)
 	{
-		mStartTime = ProfilingTimer.getElapsedTime().asSeconds();
+		mStartTime = Clock::now();
 	}
 }
 bool Profiler::Node::endCall()
 {
 	if (--mRecursion == 0)
 	{
-		TimePoint endTime = ProfilingTimer.getElapsedTime().asSeconds();
+		TimePoint endTime = Clock::now();
 		TimeSpan diff = endTime - mStartTime;
-		if (mMinTime == TimePoint{} || mMinTime > diff)
+		if (mMinTime == TimeSpan{} || mMinTime > diff)
 			mMinTime = diff;
 		if (mMaxTime < diff)
 			mMaxTime = diff;
@@ -151,7 +162,10 @@ void Profiler::Node::toStream(std::ostream& os, unsigned int level) const
 
 	os << mName;
 	if (mCallCount > 0)
-		os << " - " << std::setprecision(2) << std::fixed << (getAvgTime() * 1000) << " ms";
+	{
+		float avgTime = std::chrono::duration_cast<std::chrono::duration<float, std::milli>>(getAvgTime()).count();
+		os << " - " << std::setprecision(2) << std::fixed << avgTime << " ms";
+	}
 	if (mCallCount > 1)
 		os << " * " << mCallCount;
 

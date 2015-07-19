@@ -32,10 +32,10 @@ void Application::run()
 	float totalTime = 0;
 
 	{ // Prime the profiling tree
-		PROFILE("Frame");
-		{ PROFILE("Tick"); }
-		{ PROFILE("Update"); }
-		{ PROFILE("Draw"); }
+		PROFILE_NAMED("Frame");
+		{ PROFILE_NAMED("Tick"); }
+		{ PROFILE_NAMED("Update"); }
+		{ PROFILE_NAMED("Draw"); }
 	} Profiler::resetBlocks();
 
 	auto root = Profiler::getRoot()->getChild("Frame");
@@ -46,7 +46,7 @@ void Application::run()
 		extraDT += dt;
 
 		while (mWindow.pollEvent(ev))
-		{ PROFILE("Events");
+		{ PROFILE_NAMED("Events");
 			mState.handle_event(ev);
 
 			if (ev.type == sf::Event::Closed)
@@ -54,7 +54,7 @@ void Application::run()
 		}
 
 		while (extraDT >= TICK_LENGTH)
-		{ PROFILE("Tick");
+		{ PROFILE_NAMED("Tick");
 			mState.fixed_update(TICK_LENGTH);
 
 			extraDT -= TICK_LENGTH;
@@ -71,7 +71,7 @@ void Application::run()
 
 		Profiler::endBlock(); // Frame
 
-		if (root->getTotalTime() >= 1)
+		if (root->getTotalTime() >= std::chrono::seconds(1))
 		{
 			std::ostringstream oss;
 			oss << *root << std::endl;

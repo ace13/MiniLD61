@@ -3,16 +3,39 @@
 #include <string>
 #include <iosfwd>
 
+#include <chrono>
+#if defined(_MSC_VER) && _MSC_VER < 1900 // Visual Studio 2015+ have a proper std::chrono::high_precision_clock
+#define SFML_CLOCK
+#endif
+
 #define __PROFILE_COMBINE2(VAR1,VAR2) VAR1 ## VAR2
 #define __PROFILE_COMBINE1(VAR1,VAR2) __PROFILE_COMBINE2(VAR1,VAR2)
-#define PROFILE(NAME) ::Profiler::Block __PROFILE_COMBINE1(__prof_, __LINE__)(NAME);
+#define PROFILE_BLOCK ::Profiler::Block __PROFILE_COMBINE1(__prof_, __LINE__)(__FUNCTION__);
+#define PROFILE_NAMED(NAME) ::Profiler::Block __PROFILE_COMBINE1(__prof_, __LINE__)(NAME);
 #define PROFILE_CALL(NAME, CALL) ::Profiler::startBlock(NAME); CALL; ::Profiler::endBlock();
 
 class Profiler
 {
 public:
-	typedef float TimeSpan;
-	typedef float TimePoint;
+#ifdef SFML_CLOCK
+	class Clock
+	{
+	public:
+		typedef int64_t rep;
+		typedef std::micro period;
+		typedef std::chrono::duration<rep, period> duration;
+		typedef std::chrono::time_point<Clock> time_point;
+
+		static const bool is_steady;
+		static time_point now();
+	};
+#else
+	typedef std::chrono::high_resolution_clock Clock;
+#endif
+
+	typedef Clock::time_point TimePoint;
+	typedef Clock::duration TimeSpan;
+
 	class Iterator;
 	class Node;
 

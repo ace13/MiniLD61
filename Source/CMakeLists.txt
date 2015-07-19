@@ -34,6 +34,7 @@ if (NOT WIN32 AND NOT APPLE)
 	include_directories( ${FONTCONFIG_INCLUDE_DIR} )
 endif()
 
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 add_executable( MiniLD61 ${HEADERS} ${SOURCES} )
 target_link_libraries( MiniLD61 ${SFML_LIBRARIES} )
 
