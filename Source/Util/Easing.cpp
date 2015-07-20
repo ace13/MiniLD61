@@ -3,21 +3,35 @@
 #include <algorithm>
 #include <cassert>
 
-/*
-template<typename T>
-Easer::Easer()
+Easer::Easer(Function* f, Type t) :
+	mType(t), mFunc(f), mCurrent(0), mDuration(0), mStart(0), mEnd(1)
 {
-
 }
-*/
-// template<Easers::Linear> Easer::Easer;
 
-void Easer::start(float dur)
+Easer::~Easer()
+{
+	delete mFunc;
+}
+
+void Easer::setFunction(Function* f)
+{
+	delete mFunc;
+	mFunc = f;
+}
+
+void Easer::setType(Type t)
+{
+	mType = t;
+}
+
+void Easer::start(float dur, float start, float end)
 {
 	assert(dur >= 0 && "Duration must be positive.");
 
 	mDuration = dur;
 	mCurrent = 0;
+	mStart = start;
+	mEnd = end;
 } 
 
 void Easer::reset()
@@ -42,11 +56,16 @@ float Easer::operator*() const
 	switch(mType)
 	{
 	case Type::In:
-		return mFunc->In(t);
+		t = mFunc->In(t);
+		break;
 	case Type::Out:
-		return mFunc->Out(t);
+		t = mFunc->Out(t);
+		break;
 	case Type::InOut:
-		return mFunc->InOut(t);
+		t = mFunc->InOut(t);
+		break;
 	}
+
+	return mStart + t * (mEnd - mStart);
 }
 
