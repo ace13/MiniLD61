@@ -29,6 +29,8 @@ public:
 	virtual void handleEvent(sf::Event&);
 	virtual void update(float dt);
 
+	virtual std::string getName() const = 0;
+
 	void setState(State s);
 	State getState() const;
 

@@ -1,6 +1,9 @@
 #include "MenuPane.hpp"
 
+#include <Util/Font.hpp>
+
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Event.hpp>
 
 const uint8_t SHADED_ALPHA = 97;
@@ -19,8 +22,15 @@ MenuPane::~MenuPane()
 {
 }
 
-void MenuPane::draw(sf::RenderTarget&)
+void MenuPane::draw(sf::RenderTarget& target)
 {
+	sf::Text title(getName(), sf::getDefaultFont(), 30U);
+
+	title.setOrigin(0, 15);
+	title.setPosition(getOffset(), 64);
+	title.setColor(sf::Color(255,255,255,getAlpha()));
+
+	target.draw(title);
 }
 void MenuPane::handleEvent(sf::Event&)
 {
