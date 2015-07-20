@@ -27,7 +27,7 @@ public:
 	void setType(Type t);
 
 	void start(float duration, float startVal = 0, float endVal = 1);
-	void reset();
+	void reset(bool reverse = false);
 
 	void update(float dt);
 	bool end() const;

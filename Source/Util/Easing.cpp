@@ -34,9 +34,16 @@ void Easer::start(float dur, float start, float end)
 	mEnd = end;
 } 
 
-void Easer::reset()
+void Easer::reset(bool reverse)
 {
 	mCurrent = 0;
+
+	if (reverse)
+	{
+		float temp = mStart;
+		mStart = mEnd;
+		mEnd = temp;
+	}
 }
 
 void Easer::update(float dt)
