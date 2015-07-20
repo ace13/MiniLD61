@@ -15,5 +15,7 @@ void MenuState::variadic_update(float dt)
 }
 void MenuState::draw(sf::RenderTarget& target)
 {
-
+}
+void MenuState::drawUI(sf::RenderTarget& target)
+{
 }

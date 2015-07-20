@@ -4,6 +4,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <SFML/Window/Event.hpp>
+
 IntroState::IntroState() :
 	mTime(0), mAlphaEaser(new Easers::Quadratic), mScaleEaser(new Easers::Quintic), mRotationEaser(new Easers::Linear)
 {
@@ -21,11 +23,13 @@ void IntroState::init()
 
 void IntroState::handle_event(sf::Event& ev)
 {
+	if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape)
+		mTime = 5;
 }
 void IntroState::fixed_update(float dt)
 {
 	if (mTime > 5)
-		getStateManager().changeState<MenuState>();
+		getStateManager().changeState<MenuState>(true);
 }
 void IntroState::variadic_update(float dt)
 {
@@ -40,15 +44,22 @@ void IntroState::variadic_update(float dt)
 		mRotationEaser.setType(Easer::Out);
 		mRotationEaser.setFunction(new Easers::Quadratic);
 		mRotationEaser.start(10, 22.5, 360);
+
+		mAlphaEaser.setType(Easer::Out);
+		mAlphaEaser.setFunction(new Easers::Exponential);
+		mAlphaEaser.start(7, 255, 0);
 	}
 }
 void IntroState::draw(sf::RenderTarget& target)
+{
+}
+void IntroState::drawUI(sf::RenderTarget& target)
 {
 	// Draw intro scene
 	sf::Sprite playingCard(mCardTexture);
 	
 	playingCard.setOrigin((sf::Vector2f)mCardTexture.getSize() / 2.f);
-	playingCard.setPosition((sf::Vector2f)target.getSize() / 2.f);
+	playingCard.setPosition(target.getView().getCenter());
 
 	float firstScale = std::min(1.f, *mScaleEaser);
 	playingCard.setScale(firstScale, firstScale);
@@ -60,7 +71,7 @@ void IntroState::draw(sf::RenderTarget& target)
 		sf::Sprite secondCard(mCardTexture);
 
 		secondCard.setOrigin((sf::Vector2f)mCardTexture.getSize() / 2.f);
-		secondCard.setPosition((sf::Vector2f)target.getSize() / 2.f);
+		secondCard.setPosition(target.getView().getCenter());
 
 		secondCard.setScale(*mScaleEaser, *mScaleEaser);
 		secondCard.setRotation(*mRotationEaser);

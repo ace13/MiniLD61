@@ -22,6 +22,10 @@ Application::~Application()
 void Application::run()
 {
 	mWindow.create(sf::VideoMode(800, 600), "MiniLD 61");
+
+	mGameView = mWindow.getDefaultView();
+	mUIView = mWindow.getDefaultView();
+
 	mState.changeState<IntroState>();
 
 	sf::Clock frameTimer;
@@ -49,7 +53,16 @@ void Application::run()
 		{ PROFILE_NAMED("Events");
 			mState.handle_event(ev);
 
-			if (ev.type == sf::Event::Closed)
+			if (ev.type == sf::Event::Resized)
+			{
+				sf::Vector2f size(ev.size.width, ev.size.height);
+
+				mUIView.setSize(size);
+				mUIView.setCenter(size / 2.f);
+
+				mGameView.setSize(mGameView.getSize().y * (size.x / size.y), mGameView.getSize().y);
+			}
+			else if (ev.type == sf::Event::Closed)
 				mWindow.close();
 		}
 
@@ -64,7 +77,13 @@ void Application::run()
 
 		mWindow.clear();
 
+		mWindow.setView(mGameView);
+
 		PROFILE_CALL("Draw", mState.draw(mWindow));
+
+		mWindow.setView(mUIView);
+		
+		PROFILE_CALL("DrawUI", mState.drawUI(mWindow));
 		mWindow.draw(profilingText);
 
 		mWindow.display();

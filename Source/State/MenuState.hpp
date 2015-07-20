@@ -16,6 +16,7 @@ public:
 	void fixed_update(float dt);
 	void variadic_update(float dt);
 	void draw(sf::RenderTarget& target);
+	void drawUI(sf::RenderTarget& target);
 
 	std::string getName() const { return "MenuState"; }
 

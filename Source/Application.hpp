@@ -1,7 +1,9 @@
 #pragma once
 
 #include "State/StateManager.hpp"
+
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/View.hpp>
 
 class Application
 {
@@ -14,5 +16,6 @@ public:
 private:
 	StateManager mState;
 	sf::RenderWindow mWindow;
+	sf::View mGameView, mUIView;
 };
 

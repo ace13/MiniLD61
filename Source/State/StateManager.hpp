@@ -19,6 +19,7 @@ public:
 	virtual void fixed_update(float dt) = 0;
 	virtual void variadic_update(float dt) = 0;
 	virtual void draw(sf::RenderTarget& target) = 0;
+	virtual void drawUI(sf::RenderTarget& target) = 0;
 
 	virtual std::string getName() const = 0;
 
@@ -48,6 +49,7 @@ public:
 	void fixed_update(float dt);
 	void variadic_update(float dt);
 	void draw(sf::RenderTarget& target);
+	void drawUI(sf::RenderTarget& target);
 
 private:
 	void addState(const std::type_index& id, IState* state);

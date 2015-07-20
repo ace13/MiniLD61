@@ -44,6 +44,11 @@ void StateManager::draw(sf::RenderTarget& target)
 	if (mCurState)
 		mCurState->draw(target);
 }
+void StateManager::drawUI(sf::RenderTarget& target)
+{
+	if (mCurState)
+		mCurState->drawUI(target);
+}
 
 void StateManager::addState(const std::type_index& id, IState* state)
 {
@@ -54,6 +59,8 @@ void StateManager::addState(const std::type_index& id, IState* state)
 
 	mStates[id] = state;
 	state->mStateMan = this;
+
+	std::cout << "[SM] Added state " << state->getName() << std::endl;
 }
 void StateManager::changeState(IState* state)
 {
@@ -62,6 +69,7 @@ void StateManager::changeState(IState* state)
 }
 void StateManager::removeState(IState* state)
 {
+	std::cout << "[SM] Removing state " << state->getName() << std::endl;
 	state->cleanup();
 
 	for (auto& it : mStates)
