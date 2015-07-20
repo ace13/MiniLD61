@@ -1,6 +1,7 @@
 set( HEADERS
 	Application.hpp	
 	FX/Particles.hpp
+	Menu/MenuPane.hpp
 	State/GameState.hpp
 	State/IntroState.hpp
 	State/MenuState.hpp
@@ -14,6 +15,7 @@ set( HEADERS
 set( SOURCES
 	Application.cpp
 	FX/Particles.cpp
+	Menu/MenuPane.cpp
 	State/GameState.cpp
 	State/IntroState.cpp
 	State/MenuState.cpp
