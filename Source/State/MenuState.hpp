@@ -20,6 +20,9 @@ public:
 
 	std::string getName() const { return "MenuState"; }
 
+	void pushPane(MenuPane* pane);
+	MenuPane* popPane();
+
 private:
 	std::list<MenuPane*> mMenuPanes;
 };
