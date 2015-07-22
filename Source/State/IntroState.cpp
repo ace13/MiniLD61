@@ -1,6 +1,8 @@
 #include "IntroState.hpp"
 #include "MenuState.hpp"
 
+#include <Menu/MainMenu.hpp>
+
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -29,7 +31,11 @@ void IntroState::handle_event(sf::Event& ev)
 void IntroState::fixed_update(float dt)
 {
 	if (mTime > 5)
-		getStateManager().changeState<MenuState>(true);
+	{
+		auto& manager = getStateManager();
+		manager.changeState<MenuState>(true);
+		static_cast<MenuState*>(manager.getCurrentState())->pushPane(new MainMenuPane);
+	}
 }
 void IntroState::variadic_update(float dt)
 {

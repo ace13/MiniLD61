@@ -57,7 +57,7 @@ namespace Easers
 	FUNC(Circular, return 1 - std::sqrt(1 - (t * t)), return sqrt((2 - t) * t));
 	FUNC(Exponential, return t == 0 ? 0 : std::pow(2, 10 * (t - 1)), return t == 1 ? 1 : 1 - std::pow(2, -10 * t));
 	FUNC(Elastic, return std::sin(13 * M_PI_2 * t) * std::pow(2, 10 * (t - 1)), return std::sin(-13 * M_PI_2 * (t + 1)) * std::pow(2, -10 * t) + 1);
-	FUNC(Back, return t * t * t - t * std::sin(t * M_PI), float f = t-1; return 1 - (f * f * f - f * sin(M_PI * f)));
+	FUNC(Back, return t * t * t - t * std::sin(t * M_PI), float f = 1-t; return 1 - (f * f * f - f * sin(M_PI * f)));
 	FUNC(Bounce, return 1 - Out(1 - t), \
 		if (t < 4 / 11.0) return (121.0 * t * t) / 16.0; \
 		else if (t < 8 / 11.0) return (363.0/40.0 * t * t) - (99/10.0 * t) + 17.0/5.0; \

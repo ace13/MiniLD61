@@ -10,6 +10,8 @@
 class MenuState : public IState
 {
 public:
+	MenuState();
+
 	void init();
 
 	void handle_event(sf::Event& ev);

@@ -14,7 +14,7 @@ const uint8_t CLOSED_ALPHA = 0;
 const float CLOSED_OFFSET  = 128;
 
 MenuPane::MenuPane() :
-	mOffset(new Easers::Bounce), mAlpha(new Easers::Cubic), mState(Closed)
+	mOffset(new Easers::Back, Easer::Out), mAlpha(new Easers::Linear), mState(Closed)
 {
 }
 
@@ -46,7 +46,7 @@ void MenuPane::update(float dt)
 		if (mState == Shading)
 			mState = Shaded;
 		else if (mState == Unshading || mState == Opening)
-			mState = Opened;
+			mState = Open;
 		else if (mState == Closing)
 			mState = Closed;
 	}
@@ -54,6 +54,9 @@ void MenuPane::update(float dt)
 
 void MenuPane::setState(State s)
 {
+	const float ALPHA_DELAY = 0.5;
+	const float OFFSET_DELAY = 1;
+
 	mState = s;
 
 	switch(mState)
@@ -62,8 +65,8 @@ void MenuPane::setState(State s)
 		mOffset.setFunction(new Easers::Cubic);
 		mOffset.setType(Easer::Out);
 
-		mAlpha.start(1, OPENED_ALPHA, SHADED_ALPHA);
-		mOffset.start(1, OPENED_OFFSET, SHADED_OFFSET);
+		mAlpha.start(ALPHA_DELAY, OPENED_ALPHA, SHADED_ALPHA);
+		mOffset.start(OFFSET_DELAY, OPENED_OFFSET, SHADED_OFFSET);
 		break;
 
 	case Shaded:
@@ -74,15 +77,15 @@ void MenuPane::setState(State s)
 	case Unshading:
 		mOffset.setType(Easer::In);
 
-		mAlpha.start(1, SHADED_ALPHA, OPENED_ALPHA);
-		mOffset.start(1, SHADED_OFFSET, OPENED_OFFSET);
+		mAlpha.start(ALPHA_DELAY, SHADED_ALPHA, OPENED_ALPHA);
+		mOffset.start(OFFSET_DELAY, SHADED_OFFSET, OPENED_OFFSET);
 		break;
 
 	case Closing:
 		mOffset.setFunction(new Easers::Exponential);
 
-		mAlpha.start(1, OPENED_ALPHA, CLOSED_ALPHA);
-		mOffset.start(1, OPENED_OFFSET, CLOSED_OFFSET);
+		mAlpha.start(ALPHA_DELAY, OPENED_ALPHA, CLOSED_ALPHA);
+		mOffset.start(OFFSET_DELAY, OPENED_OFFSET, CLOSED_OFFSET);
 		break;
 
 	case Closed:
@@ -91,13 +94,13 @@ void MenuPane::setState(State s)
 		break;
 
 	case Opening:
-		mOffset.setFunction(new Easers::Bounce);
+		mOffset.setFunction(new Easers::Back);
 
-		mAlpha.start(1, CLOSED_ALPHA, OPENED_ALPHA);
-		mOffset.start(1, -CLOSED_OFFSET, OPENED_OFFSET);
+		mAlpha.start(ALPHA_DELAY, CLOSED_ALPHA, OPENED_ALPHA);
+		mOffset.start(OFFSET_DELAY, -CLOSED_OFFSET, OPENED_OFFSET);
 		break;
 
-	case Opened:
+	case Open:
 		mAlpha.start(0, OPENED_ALPHA, OPENED_ALPHA);
 		mOffset.start(0, OPENED_OFFSET, OPENED_OFFSET);
 		break;

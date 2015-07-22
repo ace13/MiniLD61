@@ -2,6 +2,8 @@
 
 #include <Util/Easing.hpp>
 
+#include <string>
+
 namespace sf
 {
 	struct Event;
