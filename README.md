@@ -15,6 +15,6 @@ The Game/Theme
 --------------
 
 The theme is "A Necessary Weakness", where the weakness in question is one of mine as a game developer.
-So this game is built to focus around my weaknesses for art and music, whereupon IÛC plan on making a game much like the old *Raptor: Call of the Shadows*. Complete with large scrolling backdrops, proper soundtrack, and sound effects.
-Also planning on giving it proper graphical fidelity, since I usually stick with vector art and simpler pixel art stuff.
+So this game is built to focus around my weaknesses for art and music, whereupon I plan on making a game much like the old *Raptor: Call of the Shadows*. Complete with large scrolling backdrops, proper soundtrack, and sound effects.
+Also planning on giving it proper graphical fidelity, since I usually stick with vector art and simpler not-quit-pixel-art stuff.
 
