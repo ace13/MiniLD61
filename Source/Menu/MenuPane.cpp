@@ -14,7 +14,7 @@ const uint8_t CLOSED_ALPHA = 0;
 const float CLOSED_OFFSET  = 256;
 
 MenuPane::MenuPane() :
-	mOffset(new Easers::Back, Easer::Out), mAlpha(new Easers::Linear), mState(Closed)
+	mOffset(new Easers::Back, Easer::Out), mAlpha(new Easers::Linear), mState(Closed), mLastJoy(0), mSelection(-1), mEntryCount(-1)
 {
 }
 
@@ -32,9 +32,46 @@ void MenuPane::draw(sf::RenderTarget& target)
 
 	target.draw(title);
 }
-void MenuPane::handleEvent(sf::Event&)
+void MenuPane::handleEvent(sf::Event& ev)
 {
+	if (mEntryCount <= 0 || (mState > MenuPane::Open && mState != MenuPane::Unshading))
+		return;
 
+	if (ev.type == sf::Event::KeyPressed)
+	{
+		if (ev.key.code == sf::Keyboard::Up || ev.key.code == sf::Keyboard::W)
+		{
+			if (--mSelection < 0)
+				mSelection = mEntryCount - 1;
+		}
+		else if (ev.key.code == sf::Keyboard::Down || ev.key.code == sf::Keyboard::S)
+		{
+			if (++mSelection >= mEntryCount)
+				mSelection = 0;
+		}
+	}
+	else if (ev.type == sf::Event::JoystickMoved)
+	{
+		if (ev.joystickMove.axis == sf::Joystick::Axis::Y || ev.joystickMove.axis == sf::Joystick::Axis::PovY)
+		{
+			float len = ev.joystickMove.position;
+
+			if (len < -50 && mLastJoy > -25)
+			{
+				if (--mSelection < 0)
+					mSelection = mEntryCount - 1;
+				mLastJoy = len;
+			}
+			else if (len > 50 && mLastJoy < 25)
+			{
+				if (++mSelection >= mEntryCount)
+					mSelection = 0;
+				mLastJoy = len;
+			}
+			else if (len > -25 || len < 25)
+				mLastJoy = len;
+		}
+	}
 }
 void MenuPane::update(float dt)
 {
@@ -123,6 +160,18 @@ float MenuPane::getAlpha() const
 	return *mAlpha;
 }
 
+char MenuPane::getSelection() const
+{
+	return mSelection;
+}
+void MenuPane::setSelection(char entry)
+{
+	mSelection = entry;
+}
+void MenuPane::setEntryCount(char count)
+{
+	mEntryCount = count;
+}
 MenuState& MenuPane::getMenuState() const
 {
 	return *mMenu;

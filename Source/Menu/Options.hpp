@@ -18,6 +18,5 @@ public:
 private:
 	void back();
 
-	char mSelection;
 	std::list<sf::Text> mEntries;
 };

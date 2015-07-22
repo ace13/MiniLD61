@@ -2,6 +2,7 @@
 #include "MenuState.hpp"
 
 #include <Menu/MainMenu.hpp>
+#include <Util/Font.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -30,7 +31,7 @@ void IntroState::handle_event(sf::Event& ev)
 }
 void IntroState::fixed_update(float dt)
 {
-	if (mTime > 5)
+	if (mTime > 4)
 	{
 		auto& manager = getStateManager();
 		manager.changeState<MenuState>(true);
@@ -53,7 +54,7 @@ void IntroState::variadic_update(float dt)
 
 		mAlphaEaser.setType(Easer::Out);
 		mAlphaEaser.setFunction(new Easers::Exponential);
-		mAlphaEaser.start(7, 255, 0);
+		mAlphaEaser.start(4, 255, 0);
 	}
 }
 void IntroState::draw(sf::RenderTarget& target)
@@ -87,5 +88,11 @@ void IntroState::drawUI(sf::RenderTarget& target)
 	}
 
 	target.draw(playingCard);
+
+	sf::Text copyroight("An Ananace production", sf::getDefaultFont(), 12U);
+	auto rect = copyroight.getLocalBounds();
+	copyroight.setOrigin(rect.width / 2.f, rect.height + 5);
+	copyroight.setPosition(target.getView().getSize() / 2.f + sf::Vector2f(0.f, target.getView().getSize().y / 2.f));
+	target.draw(copyroight);
 }
 

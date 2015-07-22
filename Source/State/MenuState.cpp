@@ -43,17 +43,6 @@ void MenuState::drawUI(sf::RenderTarget& target)
 		pane->draw(target);
 }
 
-// Open Pane:
-// - Current top pane -> set state (shading)
-// - Set New top pane
-// - New top pane -> set state (opening)
-//
-// Close pane:
-// - Current top pane -> set state (closing)
-// - Set Current top pane to old pane
-// - Current top pane -> set state (unshading)
-//
-// mPanes = Stack, push new panes on top, iterate from bottom and upwards
 void MenuState::pushPane(MenuPane* pane)
 {
 	if (!mMenuPanes.empty())

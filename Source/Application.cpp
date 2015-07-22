@@ -22,6 +22,9 @@ Application::~Application()
 void Application::run()
 {
 	mWindow.create(sf::VideoMode(800, 600), "MiniLD 61");
+#ifdef NDEBUG
+	mWindow.setFramerateLimit(200);
+#endif
 
 	mGameView = mWindow.getDefaultView();
 	mUIView = mWindow.getDefaultView();
@@ -99,7 +102,7 @@ void Application::run()
 			Profiler::resetBlocks();
 		}
 
-
+		// State manager is without state, might as well die nicely
 		if (mState.getCurrentState() == nullptr)
 			mWindow.close();
 	}

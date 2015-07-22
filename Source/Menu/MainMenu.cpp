@@ -9,8 +9,7 @@
 
 #include <iostream>
 
-MainMenuPane::MainMenuPane() :
-	mSelection(-1)
+MainMenuPane::MainMenuPane()
 {
 	mEntries = {
 		sf::Text("New Game >", sf::getDefaultFont(), 18U),
@@ -20,6 +19,8 @@ MainMenuPane::MainMenuPane() :
 
 	if (false) // hasSaveGame())
 		mEntries.emplace(mEntries.begin(), "Continue Game >", sf::getDefaultFont(), 18U);
+
+	setEntryCount(mEntries.size());
 
 	for (auto& entry : mEntries)
 	{
@@ -37,7 +38,7 @@ void MainMenuPane::draw(sf::RenderTarget& target)
 	{
 		entry.setPosition(getOffset(), 128 + (i++) * 30);
 		sf::Color base = sf::Color::White;
-		if (i == mSelection + 1) // Increment already happened
+		if (i == getSelection() + 1) // Increment already happened
 			base = sf::Color::Yellow;
 		entry.setColor(base * sf::Color(255,255,255, getAlpha()));
 		target.draw(entry);
@@ -45,30 +46,53 @@ void MainMenuPane::draw(sf::RenderTarget& target)
 }
 void MainMenuPane::handleEvent(sf::Event& ev)
 {
-	if (ev.type == sf::Event::KeyPressed)
+	MenuPane::handleEvent(ev);
+	const auto checkSel = [this]() {
+		char realSel = getSelection() + (mEntries.size() == 4 ? 0 : 1);
+		switch (realSel)
+		{
+			case 0:
+				newGame(true); break;
+			case 1:
+				newGame(false); break;
+			case 2:
+				options(); break;
+			case 3:
+				quit(); break;
+		}
+	};
+
+	if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Return)
+		checkSel();
+	else if (ev.type == sf::Event::JoystickButtonPressed && ev.joystickButton.button == 0)
+		checkSel();
+	else if (ev.type == sf::Event::MouseMoved)
 	{
-		if (ev.key.code == sf::Keyboard::Up || ev.key.code == sf::Keyboard::W)
-		{
-			if (--mSelection < 0)
-				mSelection = mEntries.size() - 1;
-		}
-		else if (ev.key.code == sf::Keyboard::Down || ev.key.code == sf::Keyboard::S)
-		{
-			if (++mSelection >= mEntries.size())
-				mSelection = 0;
-		}
-		else if (ev.key.code == sf::Keyboard::Return)
-		{
-			int offset = mEntries.size() == 4 ? 0 : 1;
-			if (mSelection+offset == 0)
-				newGame(true);
-			else if (mSelection+offset == 1)
-				newGame(false);
-			else if (mSelection+offset == 2)
-				options();
-			else if (mSelection+offset == 3)
-				quit();
-		}
+		sf::Vector2f pos(ev.mouseMove.x, ev.mouseMove.y);
+
+		char sel = -1;
+		for (auto& entry : mEntries)
+			if (++sel >= 0 && entry.getGlobalBounds().contains(pos))
+			{
+				setSelection(sel);
+				break;
+			}
+	}
+	else if (ev.type == sf::Event::MouseButtonPressed)
+	{
+		if (ev.mouseButton.button != sf::Mouse::Button::Left)
+			return;
+
+		sf::Vector2f pos(ev.mouseButton.x, ev.mouseButton.y);
+
+		char sel = -1;
+		for (auto& entry : mEntries)
+			if (++sel >= 0 && entry.getGlobalBounds().contains(pos))
+			{
+				setSelection(sel);
+				checkSel();
+				break;
+			}
 	}
 }
 

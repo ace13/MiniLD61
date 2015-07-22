@@ -41,12 +41,19 @@ protected:
 	float getOffset() const;
 	float getAlpha() const;
 
+	char getSelection() const;
+	void setSelection(char entry);
+	void setEntryCount(char count);
+
 	MenuState& getMenuState() const;
 
 private:
 	MenuState* mMenu;
 	Easer mOffset, mAlpha;
 	State mState;
+
+	float mLastJoy;
+	char mSelection, mEntryCount;
 
 	friend class MenuState;
 };

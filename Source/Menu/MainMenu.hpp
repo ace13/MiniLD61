@@ -21,6 +21,5 @@ private:
 	void scoreboard();
 	void quit();
 
-	char mSelection;
 	std::list<sf::Text> mEntries;
 };
