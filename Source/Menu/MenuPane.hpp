@@ -10,6 +10,7 @@ namespace sf
 	class RenderTarget;
 }
 
+class MenuState;
 class MenuPane
 {
 public:
@@ -40,8 +41,13 @@ protected:
 	float getOffset() const;
 	float getAlpha() const;
 
+	MenuState& getMenuState() const;
+
 private:
+	MenuState* mMenu;
 	Easer mOffset, mAlpha;
 	State mState;
+
+	friend class MenuState;
 };
 

@@ -98,6 +98,10 @@ void Application::run()
 
 			Profiler::resetBlocks();
 		}
+
+
+		if (mState.getCurrentState() == nullptr)
+			mWindow.close();
 	}
 }
 

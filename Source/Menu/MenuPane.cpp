@@ -120,5 +120,8 @@ float MenuPane::getAlpha() const
 	return *mAlpha;
 }
 
-
+MenuState& MenuPane::getMenuState() const
+{
+	return *mMenu;
+}
 

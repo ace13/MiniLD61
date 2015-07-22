@@ -72,11 +72,18 @@ void StateManager::removeState(IState* state)
 	std::cout << "[SM] Removing state " << state->getName() << std::endl;
 	state->cleanup();
 
+	if (state == mCurState)
+		mCurState = nullptr;
+
 	for (auto& it : mStates)
 		if (it.second == state)
 		{
 			mStates.erase(it.first);
 			delete state;
+
+			if (!mCurState && !mStates.empty())
+				mCurState = mStates.begin()->second;
+
 			return;
 		}
 
