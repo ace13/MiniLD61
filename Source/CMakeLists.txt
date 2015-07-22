@@ -3,6 +3,7 @@ set( HEADERS
 	FX/Particles.hpp
 	Menu/MainMenu.hpp
 	Menu/MenuPane.hpp
+	Menu/Options.hpp
 	State/GameState.hpp
 	State/IntroState.hpp
 	State/MenuState.hpp
@@ -18,6 +19,7 @@ set( SOURCES
 	FX/Particles.cpp
 	Menu/MainMenu.cpp
 	Menu/MenuPane.cpp
+	Menu/Options.cpp
 	State/GameState.cpp
 	State/IntroState.cpp
 	State/MenuState.cpp

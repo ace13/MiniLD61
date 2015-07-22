@@ -1,4 +1,3 @@
-#include "MainMenu.hpp"
 #include "Options.hpp"
 
 #include <State/MenuState.hpp>
@@ -9,17 +8,14 @@
 
 #include <iostream>
 
-MainMenuPane::MainMenuPane() :
+OptionsPane::OptionsPane() :
 	mSelection(-1)
 {
 	mEntries = {
-		sf::Text("New Game >", sf::getDefaultFont(), 18U),
-		sf::Text("Options >", sf::getDefaultFont(), 18U),
-		sf::Text("Quit >", sf::getDefaultFont(), 18U)
+		sf::Text("[ I Am an Option ]", sf::getDefaultFont(), 18U),
+		sf::Text("[ Option too ]", sf::getDefaultFont(), 18U),
+		sf::Text("<< Back", sf::getDefaultFont(), 18U)
 	};
-
-	if (true) // hasSaveGame())
-		mEntries.emplace(mEntries.begin(), "Continue Game >", sf::getDefaultFont(), 18U);
 
 	for (auto& entry : mEntries)
 	{
@@ -28,7 +24,7 @@ MainMenuPane::MainMenuPane() :
 	}
 }
 
-void MainMenuPane::draw(sf::RenderTarget& target)
+void OptionsPane::draw(sf::RenderTarget& target)
 {
 	MenuPane::draw(target);
 
@@ -43,7 +39,7 @@ void MainMenuPane::draw(sf::RenderTarget& target)
 		target.draw(entry);
 	}
 }
-void MainMenuPane::handleEvent(sf::Event& ev)
+void OptionsPane::handleEvent(sf::Event& ev)
 {
 	if (ev.type == sf::Event::KeyPressed)
 	{
@@ -59,35 +55,16 @@ void MainMenuPane::handleEvent(sf::Event& ev)
 		}
 		else if (ev.key.code == sf::Keyboard::Return)
 		{
-			int offset = mEntries.size() == 4 ? 0 : 1;
-			if (mSelection+offset == 0)
-				newGame(true);
-			else if (mSelection+offset == 1)
-				newGame(false);
-			else if (mSelection+offset == 2)
-				options();
-			else if (mSelection+offset == 3)
-				quit();
+			if (mSelection == 2)
+				back();
 		}
+		else if (ev.key.code == sf::Keyboard::Escape)
+			back();
 	}
 }
-
-void MainMenuPane::newGame(bool cont)
+void OptionsPane::back()
 {
-	std::cout << "[MM] Enter Game" << std::endl;
-}
-void MainMenuPane::options()
-{
-	std::cout << "[MM] Enter Options" << std::endl;
-	getMenuState().pushPane(new OptionsPane());
-}
-void MainMenuPane::scoreboard()
-{
-	std::cout << "[MM] Enter Options" << std::endl;
-}
-void MainMenuPane::quit()
-{
-	std::cout << "[MM] Quit Game" << std::endl;
+	std::cout << "[MM] Close Options" << std::endl;
 	getMenuState().popPane();
 }
 

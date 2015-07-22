@@ -75,7 +75,11 @@ MenuPane* MenuState::popPane()
 
 	ret->setState(MenuPane::Closing);
 	if (!mMenuPanes.empty())
-		mMenuPanes.front()->setState(MenuPane::Unshading);
+	{
+		auto* front = mMenuPanes.front();
+		if (front->getState() == MenuPane::Shaded || front->getState() == MenuPane::Shading)
+			front->setState(MenuPane::Unshading);
+	}
 
 	mMenuPanes.push_back(ret);
 
