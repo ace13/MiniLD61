@@ -18,7 +18,7 @@ MainMenuPane::MainMenuPane() :
 		sf::Text("Quit >", sf::getDefaultFont(), 18U)
 	};
 
-	if (true) // hasSaveGame())
+	if (false) // hasSaveGame())
 		mEntries.emplace(mEntries.begin(), "Continue Game >", sf::getDefaultFont(), 18U);
 
 	for (auto& entry : mEntries)
