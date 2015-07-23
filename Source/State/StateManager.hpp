@@ -22,8 +22,6 @@ public:
 	virtual void drawUI(sf::RenderTarget& target) = 0;
 
 	virtual std::string getName() const = 0;
-
-protected:
 	StateManager& getStateManager() const;
 
 private:

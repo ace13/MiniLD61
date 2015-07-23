@@ -4,6 +4,12 @@ MenuState::MenuState()
 {
 }
 
+MenuState::~MenuState()
+{
+	for (auto& pane : mMenuPanes)
+		delete pane;
+}
+
 void MenuState::init()
 {
 }

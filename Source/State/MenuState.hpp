@@ -11,6 +11,7 @@ class MenuState : public IState
 {
 public:
 	MenuState();
+	~MenuState();
 
 	void init();
 

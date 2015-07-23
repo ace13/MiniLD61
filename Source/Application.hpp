@@ -13,6 +13,8 @@ public:
 
 	void run();
 
+	static Application& Singleton();
+
 private:
 	StateManager mState;
 	sf::RenderWindow mWindow;

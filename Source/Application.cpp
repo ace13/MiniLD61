@@ -10,9 +10,16 @@
 
 const float TICK_LENGTH = 1.f / 60.f;
 
+namespace
+{
+	Application* sApplication = nullptr;
+}
+
 Application::Application(int argc, char** argv) :
 	mWindow()
 {
+	if (!sApplication)
+		sApplication = this;
 }
 
 Application::~Application()
@@ -106,5 +113,10 @@ void Application::run()
 		if (mState.getCurrentState() == nullptr)
 			mWindow.close();
 	}
+}
+
+Application& Application::Singleton()
+{
+	return *sApplication;
 }
 

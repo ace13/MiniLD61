@@ -11,8 +11,9 @@
 OptionsPane::OptionsPane()
 {
 	mEntries = {
-		sf::Text("[ I Am an Option ]", sf::getDefaultFont(), 18U),
-		sf::Text("[ Option too ]", sf::getDefaultFont(), 18U),
+		sf::Text("Master Volume:", sf::getDefaultFont(), 18U),
+		sf::Text("Music Volume:", sf::getDefaultFont(), 18U),
+		sf::Text("<Another Option>", sf::getDefaultFont(), 18U),
 		sf::Text("<< Back", sf::getDefaultFont(), 18U)
 	};
 
@@ -44,7 +45,7 @@ void OptionsPane::handleEvent(sf::Event& ev)
 {
 	MenuPane::handleEvent(ev);
 	const auto checkSel = [this]() {
-		if (getSelection() == 2)
+		if (getSelection() == 3)
 			back();
 	};
 

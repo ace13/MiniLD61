@@ -1,6 +1,7 @@
 #include "MainMenu.hpp"
 #include "Options.hpp"
 
+#include <State/GameState.hpp>
 #include <State/MenuState.hpp>
 #include <Util/Font.hpp>
 
@@ -99,6 +100,7 @@ void MainMenuPane::handleEvent(sf::Event& ev)
 void MainMenuPane::newGame(bool cont)
 {
 	std::cout << "[MM] Enter Game" << std::endl;
+	getMenuState().getStateManager().changeState<GameState>();
 }
 void MainMenuPane::options()
 {
