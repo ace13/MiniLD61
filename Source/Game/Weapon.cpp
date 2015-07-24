@@ -93,7 +93,7 @@ void Machinegun::fire()
 
 	float angDiff = dist(rd) * (M_PI / 8.f);
 	auto p = Particles::MG_Casing;
-	p.Position = getFirePos() + (mFire ? sf::Vector2f(-10, 0) : sf::Vector2f(10, 0));
+	p.Position = getFirePos() + (mFire ? sf::Vector2f(75, 150) : sf::Vector2f(-75, 150));
 	p.Velocity = sf::Vector2f(std::cos(getFireDir() + angDiff), std::sin(getFireDir() + angDiff)) * 200.f;
 	p.Rotation = dist(rd) * 5.f;
 
@@ -104,7 +104,7 @@ void Machinegun::fire()
 }
 void Machinegun::onLevel()
 {
-	setFireRate(1.f / (4 + getLevel() * 2));
+	setFireRate(1.f / (6 + getLevel() * 3));
 }
 void HeavyMachinegun::fire()
 {
