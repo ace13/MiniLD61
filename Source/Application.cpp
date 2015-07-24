@@ -35,6 +35,13 @@ void Application::run()
 
 	mGameView = mWindow.getDefaultView();
 	mUIView = mWindow.getDefaultView();
+	{
+		sf::Vector2f size = (sf::Vector2f)mWindow.getSize();
+		mUIView.setSize(size);
+		mUIView.setCenter(size / 2.f);
+
+		mGameView.setSize(mGameView.getSize().y * (size.x / size.y), mGameView.getSize().y);
+	}
 
 	mState.changeState<IntroState>();
 

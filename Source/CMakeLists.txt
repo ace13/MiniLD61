@@ -1,6 +1,12 @@
 set( HEADERS
 	Application.hpp	
 	FX/Particles.hpp
+	Game/Bullets.hpp
+	Game/Enemy.hpp
+	Game/Level.hpp
+	Game/Player.hpp
+	Game/Powerup.hpp
+	Game/Weapon.hpp
 	Menu/MainMenu.hpp
 	Menu/MenuPane.hpp
 	Menu/Options.hpp
@@ -17,6 +23,12 @@ set( HEADERS
 set( SOURCES
 	Application.cpp
 	FX/Particles.cpp
+	Game/Bullets.cpp
+	Game/Enemy.cpp
+	Game/Level.cpp
+	Game/Player.cpp
+	Game/Powerup.cpp
+	Game/Weapon.cpp
 	Menu/MainMenu.cpp
 	Menu/MenuPane.cpp
 	Menu/Options.cpp
