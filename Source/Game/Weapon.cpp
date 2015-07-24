@@ -6,7 +6,8 @@
 #include <cmath>
 
 Weapon::Weapon() :
-	mLevel(1), mFireAng(M_PI / -2.f), mFireRate(-1), mCooldown(0)
+	mFiring(false), mLevel(1), mFireAng(M_PI / -2.f),
+	mFireRate(-1), mCooldown(0)
 {
 }
 
@@ -24,8 +25,8 @@ void Weapon::fixed_update(float dt)
 	if (mFireRate < 0)
 		return;
 
-	mCooldown -= dt;
-	if (mCooldown <= 0)
+	mCooldown = std::max(0.f, mCooldown - dt);
+	if (mCooldown <= 0 && mFiring)
 	{
 		fire();
 
@@ -35,6 +36,11 @@ void Weapon::fixed_update(float dt)
 
 void Weapon::drawUI(sf::RenderTarget& target)
 {
+}
+
+void Weapon::setFiring(bool f)
+{
+	mFiring = f;
 }
 
 int Weapon::getLevel() const
@@ -93,7 +99,7 @@ void Machinegun::fire()
 }
 void Machinegun::onLevel()
 {
-	setFireRate(1.f / (getLevel() * 5));
+	setFireRate(1.f / (4 + getLevel() * 2));
 }
 void HeavyMachinegun::fire()
 {
@@ -111,5 +117,5 @@ void HeavyMachinegun::fire()
 }
 void HeavyMachinegun::onLevel()
 {
-	setFireRate(1.f / (getLevel() * 2));
+	setFireRate(1.f / (1 + getLevel()));
 }

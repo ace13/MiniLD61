@@ -20,6 +20,8 @@ public:
 	virtual void fixed_update(float dt);
 	void drawUI(sf::RenderTarget& target);
 	
+	void setFiring(bool f);
+
 	int getLevel() const;
 	void setLevel(int level);
 
@@ -36,6 +38,7 @@ protected:
 	void setFireRate(float rate);
 
 private:
+	bool mFiring;
 	int mLevel;
 	float mFireAng, mFireRate, mCooldown;
 	sf::Vector2f mFirePos;

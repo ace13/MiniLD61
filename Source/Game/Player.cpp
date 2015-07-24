@@ -12,7 +12,7 @@
 
 sf::Texture playerTex;
 
-Player::Player() : 
+Player::Player() :
 	mHealth(100), mMaxHealth(100), mCurWeapon(nullptr)
 {
 	playerTex.loadFromFile("Resources/Player.png");
@@ -36,32 +36,45 @@ Player::~Player()
 
 void Player::handleEvent(sf::Event& ev)
 {
-	if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Tab)
+	if (ev.type == sf::Event::KeyPressed)
 	{
-		bool found = false;
-		auto lastWeap = mCurWeapon;
-		mCurWeapon = nullptr;
-		for (auto& w : mWeapons)
+		if (ev.key.code == sf::Keyboard::Tab)
 		{
-			if (w == lastWeap)
-				found = true;
-			else if (found)
+			bool found = false;
+			auto lastWeap = mCurWeapon;
+			mCurWeapon = nullptr;
+			for (auto& w : mWeapons)
 			{
-				mCurWeapon = w;
-				break;
+				if (w == lastWeap)
+					found = true;
+				else if (found)
+				{
+					mCurWeapon = w;
+					break;
+				}
 			}
+
+			if (!mCurWeapon)
+				mCurWeapon = mWeapons.front();
+
+			std::cout << "[WP] " << mCurWeapon->getName() << std::endl;
+
+			lastWeap->setFiring(false);
+			mCurWeapon->setFiring(true);
 		}
-
-		if (!mCurWeapon)
-			mCurWeapon = mWeapons.front();
-
-		std::cout << "[WP] " << mCurWeapon->getName() << std::endl;
+		else if (ev.key.code >= sf::Keyboard::Num1 && ev.key.code <= sf::Keyboard::Num9)
+		{
+			int level = ev.key.code - sf::Keyboard::Num0;
+			mCurWeapon->setLevel(level);
+		}
 	}
 }
 void Player::fixed_update(float dt)
 {
 	mCurWeapon->setFirePos(mPosition - sf::Vector2f(0, 100));
-	mCurWeapon->fixed_update(dt);
+
+	for(auto& w : mWeapons)
+		w->fixed_update(dt);
 }
 void Player::variadic_update(float dt)
 {
