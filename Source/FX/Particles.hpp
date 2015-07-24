@@ -55,11 +55,11 @@ namespace Particles
 	};
 	const ParticleManager::Particle MG_Casing {
 		ParticleManager::Level_UnderAir, 3.5f, 0, 0, sf::Color(255,255,96),
-		sf::FloatRect(0,0,4,12), sf::Vector2f(), sf::Vector2f()
+		sf::FloatRect(100,0,4,12), sf::Vector2f(), sf::Vector2f()
 	};
 	const ParticleManager::Particle HMG_Casing {
 		ParticleManager::Level_UnderAir, 5.5f, 0, 0, sf::Color(179,179,0),
-		sf::FloatRect(4,0,8,24), sf::Vector2f(), sf::Vector2f()
+		sf::FloatRect(104,0,8,24), sf::Vector2f(), sf::Vector2f()
 	};
 }
 
