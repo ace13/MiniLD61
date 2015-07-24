@@ -6,7 +6,6 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 #include <list>
-#include <random>
 
 class ParticleManager
 {

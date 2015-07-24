@@ -20,6 +20,8 @@ public:
 	void draw(sf::RenderTarget& target);
 	void drawUI(sf::RenderTarget& target);
 
+	const sf::Vector2f& getPosition() const;
+
 private:
 	float mHealth, mMaxHealth;
 	sf::Vector2f mPosition;

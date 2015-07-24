@@ -2,6 +2,8 @@
 
 #include "StateManager.hpp"
 
+#include <SFML/Graphics/View.hpp>
+
 class GameState : public IState
 {
 public:
@@ -19,7 +21,7 @@ public:
 	std::string getName() const { return "GameState"; }
 
 private:
-
-
+	bool mFirst;
+	sf::View mCamera;
 };
 
