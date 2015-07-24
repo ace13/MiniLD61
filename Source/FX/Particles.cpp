@@ -11,10 +11,15 @@
 namespace
 {
 	Easers::Cubic sAlphaEaser;
+	sf::Texture sParticleTexture;
 }
 
 std::list<ParticleManager::Particle> ParticleManager::mParticles;
-ParticleManager::ParticleManager() { }
+
+void ParticleManager::init()
+{
+	sParticleTexture.loadFromFile("Resources/Particles.png");
+}
 
 void ParticleManager::addParticle(Particle&& p)
 {
@@ -69,6 +74,9 @@ void ParticleManager::draw(sf::RenderTarget& target, Level l)
 		           sf::Vector2f(p.Rect.left, p.Rect.top + p.Rect.height)));
 	}
 
-	target.draw(arr);
+	sf::RenderStates states;
+	states.texture = &sParticleTexture; 
+
+	target.draw(arr, states);
 }
 

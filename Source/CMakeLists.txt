@@ -2,6 +2,7 @@ set( HEADERS
 	Application.hpp	
 	FX/Particles.hpp
 	Game/Bullets.hpp
+	Game/Cloud.hpp
 	Game/Enemy.hpp
 	Game/Level.hpp
 	Game/Player.hpp
@@ -24,6 +25,7 @@ set( SOURCES
 	Application.cpp
 	FX/Particles.cpp
 	Game/Bullets.cpp
+	Game/Cloud.cpp
 	Game/Enemy.cpp
 	Game/Level.cpp
 	Game/Player.cpp

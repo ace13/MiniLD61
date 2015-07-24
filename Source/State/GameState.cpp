@@ -2,6 +2,7 @@
 
 #include <FX/Particles.hpp>
 #include <Game/Bullets.hpp>
+#include <Game/Cloud.hpp>
 #include <Game/Player.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -19,6 +20,7 @@ GameState::~GameState()
 
 void GameState::init()
 {
+	ParticleManager::init();
 }
 void GameState::handle_event(sf::Event& ev)
 {
@@ -27,6 +29,7 @@ void GameState::handle_event(sf::Event& ev)
 void GameState::fixed_update(float dt)
 {
 	BulletManager::fixed_update(dt);
+	CloudGenerator::fixed_update(dt);
 
 	p.fixed_update(dt);
 }
@@ -37,7 +40,7 @@ void GameState::variadic_update(float dt)
 	p.variadic_update(dt);
 
 	auto vec = mCamera.getCenter();
-	vec += ((p.getPosition() - sf::Vector2f(0, 700)) - vec) * (dt * 2.5f);
+	vec += ((p.getPosition() - sf::Vector2f(0, 600)) - vec) * (dt * 2.5f);
 	mCamera.setCenter(vec);
 }
 void GameState::draw(sf::RenderTarget& target)
@@ -48,6 +51,7 @@ void GameState::draw(sf::RenderTarget& target)
 		mFirst = false;
 	}
 
+	mCamera.setSize(target.getView().getSize());
 	target.setView(mCamera);
 
 	ParticleManager::draw(target, ParticleManager::Level_UnderWater);
@@ -58,11 +62,10 @@ void GameState::draw(sf::RenderTarget& target)
 	// Draw ground entities
 
 	ParticleManager::draw(target, ParticleManager::Level_OverGround);
-
+	ParticleManager::draw(target, ParticleManager::Level_UnderAir);
 	// Bullets are between air and ground
 	BulletManager::draw(target);
 
-	ParticleManager::draw(target, ParticleManager::Level_UnderAir);
 	// Draw air entities
 
 	// Player always on top

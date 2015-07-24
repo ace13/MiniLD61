@@ -19,7 +19,7 @@ public:
 
 	virtual void fixed_update(float dt);
 	void drawUI(sf::RenderTarget& target);
-	
+
 	void setFiring(bool f);
 
 	int getLevel() const;
@@ -54,7 +54,7 @@ namespace Weapons
 
 	protected:
 		virtual void onLevel();
-		virtual void fire();	
+		virtual void fire();
 
 	private:
 		bool mFire;
