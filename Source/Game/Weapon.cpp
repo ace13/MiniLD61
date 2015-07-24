@@ -6,12 +6,31 @@
 #include <cmath>
 
 Weapon::Weapon() :
-	mLevel(1), mFireAng(M_PI / -2.f)
+	mLevel(1), mFireAng(M_PI / -2.f), mFireRate(-1), mCooldown(0)
 {
 }
 
 Weapon::~Weapon()
 {
+}
+
+void Weapon::init()
+{
+	onLevel();
+}
+
+void Weapon::fixed_update(float dt)
+{
+	if (mFireRate < 0)
+		return;
+
+	mCooldown -= dt;
+	if (mCooldown <= 0)
+	{
+		fire();
+
+		mCooldown = mFireRate;
+	}
 }
 
 void Weapon::drawUI(sf::RenderTarget& target)
@@ -50,36 +69,47 @@ void Weapon::onLevel()
 {
 }
 
+void Weapon::setFireRate(float rate)
+{
+	mFireRate = rate;
+}
+
 using namespace Weapons;
 
-Machinegun::Machinegun() :
-	mFireRate(0), mCooldown(0)
+
+void Machinegun::fire()
 {
-	onLevel();
+	std::random_device rd;
+	std::uniform_real_distribution<float> dist(-1, 1);
+
+	float angDiff = dist(rd) * (M_PI / 8.f);
+	auto p = Particles::MG_Casing;
+	p.Position = getFirePos();
+	p.Velocity = sf::Vector2f(std::cos(getFireDir() + angDiff), std::sin(getFireDir() + angDiff)) * 200.f;
+	p.Rotation = dist(rd) * 5.f;
+
+	ParticleManager::addParticle(std::move(p));
+	//BulletManager::linearProjectile();
 }
-
-void Machinegun::fixed_update(float dt)
-{
-	mCooldown -= dt;
-	if (mCooldown <= 0)
-	{
-		std::random_device rd;
-		std::uniform_real_distribution<float> dist(-1, 1);
-
-		float angDiff = dist(rd) * (M_PI / 8.f);
-		auto p = Particles::MG_Casing;
-		p.Position = getFirePos();
-		p.Velocity = sf::Vector2f(std::cos(getFireDir() + angDiff), std::sin(getFireDir() + angDiff)) * 200.f;
-		p.Rotation = dist(rd) * 5.f;
-
-		ParticleManager::addParticle(std::move(p));
-		//BulletManager::linearProjectile();
-
-		mCooldown = mFireRate;
-	}
-}
-
 void Machinegun::onLevel()
 {
-	mFireRate = 1.f / (getLevel() * 5);
+	setFireRate(1.f / (getLevel() * 5));
+}
+void HeavyMachinegun::fire()
+{
+	std::random_device rd;
+	std::uniform_real_distribution<float> dist(-1, 1);
+
+	float angDiff = dist(rd) * (M_PI / 12.f);
+	auto p = Particles::HMG_Casing;
+	p.Position = getFirePos();
+	p.Velocity = sf::Vector2f(std::cos(getFireDir() + angDiff), std::sin(getFireDir() + angDiff)) * 300.f;
+	p.Rotation = dist(rd) * 8.f;
+
+	ParticleManager::addParticle(std::move(p));
+	//BulletManager::linearProjectile();
+}
+void HeavyMachinegun::onLevel()
+{
+	setFireRate(1.f / (getLevel() * 2));
 }

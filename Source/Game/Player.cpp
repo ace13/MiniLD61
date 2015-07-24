@@ -7,6 +7,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/Event.hpp>
 
+#include <iostream>
 #include <random>
 
 sf::Texture playerTex;
@@ -19,6 +20,10 @@ Player::Player() :
 	mPosition = sf::Vector2f(100, 250);
 
 	mWeapons.push_back(new Weapons::Machinegun);
+	mWeapons.push_back(new Weapons::HeavyMachinegun);
+
+	for (auto& w : mWeapons)
+		w->init();
 
 	mCurWeapon = mWeapons.front();
 }
@@ -31,7 +36,27 @@ Player::~Player()
 
 void Player::handleEvent(sf::Event& ev)
 {
+	if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Tab)
+	{
+		bool found = false;
+		auto lastWeap = mCurWeapon;
+		mCurWeapon = nullptr;
+		for (auto& w : mWeapons)
+		{
+			if (w == lastWeap)
+				found = true;
+			else if (found)
+			{
+				mCurWeapon = w;
+				break;
+			}
+		}
 
+		if (!mCurWeapon)
+			mCurWeapon = mWeapons.front();
+
+		std::cout << "[WP] " << mCurWeapon->getName() << std::endl;
+	}
 }
 void Player::fixed_update(float dt)
 {

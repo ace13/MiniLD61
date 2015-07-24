@@ -21,6 +21,7 @@ void GameState::init()
 }
 void GameState::handle_event(sf::Event& ev)
 {
+	p.handleEvent(ev);
 }
 void GameState::fixed_update(float dt)
 {

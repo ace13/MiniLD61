@@ -12,10 +12,12 @@ public:
 	Weapon();
 	virtual ~Weapon();
 
+	void init();
+
 	virtual std::string getName() const = 0;
 	virtual std::string getSprite() const = 0;
 
-	virtual void fixed_update(float dt) = 0;
+	virtual void fixed_update(float dt);
 	void drawUI(sf::RenderTarget& target);
 	
 	int getLevel() const;
@@ -29,10 +31,13 @@ public:
 
 protected:
 	virtual void onLevel();
+	virtual void fire() = 0;
+
+	void setFireRate(float rate);
 
 private:
 	int mLevel;
-	float mFireAng;
+	float mFireAng, mFireRate, mCooldown;
 	sf::Vector2f mFirePos;
 };
 
@@ -41,18 +46,23 @@ namespace Weapons
 	class Machinegun : public Weapon
 	{
 	public:
-		Machinegun();
-
 		std::string getName() const { return "Machinegun"; }
-		std::string getSprite() const { return "Machinegun.png"; }
-
-		virtual void fixed_update(float dt);
+		std::string getSprite() const { return "Weapon/MG.png"; }
 
 	protected:
 		virtual void onLevel();
+		virtual void fire();	
+	};
 
-	private:
-		float mFireRate, mCooldown;
+	class HeavyMachinegun : public Weapon
+	{
+	public:
+		std::string getName() const { return "Heavy Machinegun"; }
+		std::string getSprite() const { return "Weapon/HMG.png"; }
+
+	protected:
+		virtual void onLevel();
+		virtual void fire();
 	};
 }
 
