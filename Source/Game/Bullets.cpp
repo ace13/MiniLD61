@@ -14,7 +14,7 @@ void BulletManager::fixed_update(float dt)
 	{
 		it->Position += sf::Vector2f(std::cos(it->Angle), std::sin(it->Angle)) * it->Speed * dt;
 
-		if (it->Position.y < -1500)
+		if (it->Position.y < -2500)
 			it = projs.erase(it);
 		else
 			++it;

@@ -37,7 +37,7 @@ void ParticleManager::variadic_update(float dt)
 	for (auto it = mParticles.begin(); it != mParticles.end();)
 	{
 		it->Life -= dt;
-		it->Velocity.y = std::min(500.f, it->Velocity.y + 400.f*dt);
+		it->Velocity.y = std::min(700.f, it->Velocity.y + 400.f*dt);
 		it->Position += it->Velocity * dt;
 		it->Angle += it->Rotation * dt;
 
@@ -75,7 +75,7 @@ void ParticleManager::draw(sf::RenderTarget& target, Level l)
 	}
 
 	sf::RenderStates states;
-	states.texture = &sParticleTexture; 
+	states.texture = &sParticleTexture;
 
 	target.draw(arr, states);
 }

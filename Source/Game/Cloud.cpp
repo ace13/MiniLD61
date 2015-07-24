@@ -9,8 +9,8 @@ float CloudGenerator::mCooldown = 0;
 
 void CloudGenerator::fixed_update(float dt)
 {
-	const float CLOUD_RATE = 1.9f;
-	const float CLOUD_RANDOM = 1.2f;
+	const float CLOUD_RATE = 1.0f;
+	const float CLOUD_RANDOM = 0.9f;
 
 	mCooldown -= dt;
 
@@ -19,17 +19,17 @@ void CloudGenerator::fixed_update(float dt)
 		std::random_device rd;
 		std::uniform_real_distribution<float> dist(-1, 1);
 		std::uniform_int_distribution<int> type(0, 3);
-		std::uniform_int_distribution<int> puffs(6, 24);
-		std::uniform_int_distribution<int> color(97, 192);
+		std::uniform_int_distribution<int> puffs(9, 34);
+		std::uniform_int_distribution<int> color(122, 222);
 
-		float baseXCoord = dist(rd) * 1500.f;
+		float baseXCoord = dist(rd) * 2000.f;
 
 		int j = puffs(rd);
 		for (int i = 0; i < j; ++i)
 		{
 			auto p = Particles::Cloud_Puff;
 			p.Angle = dist(rd) * M_PI;
-			p.Position = sf::Vector2f(baseXCoord, -2048) + sf::Vector2f(dist(rd) * 360, dist(rd) * 120);
+			p.Position = sf::Vector2f(baseXCoord, -2500) + sf::Vector2f(dist(rd) * 390, dist(rd) * 180);
 			p.Rotation = dist(rd) * 0.05f;
 
 			int t = type(rd);

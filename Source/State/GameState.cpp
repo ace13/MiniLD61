@@ -40,7 +40,7 @@ void GameState::variadic_update(float dt)
 	p.variadic_update(dt);
 
 	auto vec = mCamera.getCenter();
-	vec += ((p.getPosition() - sf::Vector2f(0, 600)) - vec) * (dt * 2.5f);
+	vec += ((p.getPosition() - sf::Vector2f(0, 1020)) - vec) * (dt * 2.5f);
 	mCamera.setCenter(vec);
 }
 void GameState::draw(sf::RenderTarget& target)
@@ -53,6 +53,8 @@ void GameState::draw(sf::RenderTarget& target)
 
 	mCamera.setSize(target.getView().getSize());
 	target.setView(mCamera);
+
+	target.clear(sf::Color(22,67,126));
 
 	ParticleManager::draw(target, ParticleManager::Level_UnderWater);
 	// Draw water entitie
