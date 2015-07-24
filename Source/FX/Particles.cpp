@@ -13,16 +13,8 @@ namespace
 	Easers::Cubic sAlphaEaser;
 }
 
-ParticleManager& ParticleManager::getSingleton()
-{
-	static ParticleManager* sParticleManager = new ParticleManager();
-
-	return *sParticleManager;
-}
-
-ParticleManager::ParticleManager()
-{
-}
+std::list<ParticleManager::Particle> ParticleManager::mParticles;
+ParticleManager::ParticleManager() { }
 
 void ParticleManager::addParticle(Particle&& p)
 {
@@ -40,7 +32,7 @@ void ParticleManager::variadic_update(float dt)
 	for (auto it = mParticles.begin(); it != mParticles.end();)
 	{
 		it->Life -= dt;
-		it->Velocity.y = std::min(250.f, it->Velocity.y + 200.f*dt);
+		it->Velocity.y = std::min(500.f, it->Velocity.y + 400.f*dt);
 		it->Position += it->Velocity * dt;
 		it->Angle += it->Rotation * dt;
 

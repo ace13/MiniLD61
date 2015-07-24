@@ -17,6 +17,10 @@ Player::Player() :
 	playerTex.loadFromFile("Resources/Player.png");
 
 	mPosition = sf::Vector2f(100, 250);
+
+	mWeapons.push_back(new Weapons::Machinegun);
+
+	mCurWeapon = mWeapons.front();
 }
 
 Player::~Player()
@@ -31,25 +35,8 @@ void Player::handleEvent(sf::Event& ev)
 }
 void Player::fixed_update(float dt)
 {
-	static float asdf = 1;
-
-	asdf -= dt;
-	if (asdf <= 0)
-	{
-		auto& man = ParticleManager::getSingleton();
-		std::random_device rd;
-
-		std::uniform_real_distribution<float> dist(-1, 1);
-
-		auto p = Particles::Player_Casing;
-		p.Position = mPosition - sf::Vector2f(0, playerTex.getSize().y / 2.5f);
-		p.Velocity.x = dist(rd) * 50;
-		p.Velocity.y = -100;
-		p.Rotation = dist(rd) * 5;
-		
-		man.addParticle(std::move(p));
-		asdf = 0.1;
-	}
+	mCurWeapon->setFirePos(mPosition - sf::Vector2f(0, 100));
+	mCurWeapon->fixed_update(dt);
 }
 void Player::variadic_update(float dt)
 {
