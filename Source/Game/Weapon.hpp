@@ -55,6 +55,9 @@ namespace Weapons
 	protected:
 		virtual void onLevel();
 		virtual void fire();	
+
+	private:
+		bool mFire;
 	};
 
 	class HeavyMachinegun : public Weapon

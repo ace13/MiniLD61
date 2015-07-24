@@ -6,6 +6,11 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Event.hpp>
 
+#ifndef NDEBUG
+#include "State/MenuState.hpp"
+#include "Menu/MainMenu.hpp"
+#endif
+
 #include <sstream>
 
 const float TICK_LENGTH = 1.f / 60.f;
@@ -43,7 +48,12 @@ void Application::run()
 		mGameView.setSize(mGameView.getSize().y * (size.x / size.y), mGameView.getSize().y);
 	}
 
+#ifdef NDEBUG
 	mState.changeState<IntroState>();
+#else
+	mState.changeState<MenuState>();
+	static_cast<MenuState*>(mState.getCurrentState())->pushPane(new MainMenuPane);
+#endif
 
 	sf::Clock frameTimer;
 	sf::Event ev;

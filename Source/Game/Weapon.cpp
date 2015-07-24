@@ -1,5 +1,6 @@
 #include "Weapon.hpp"
 
+#include "Bullets.hpp"
 #include <FX/Particles.hpp>
 
 #include <random>
@@ -85,17 +86,21 @@ using namespace Weapons;
 
 void Machinegun::fire()
 {
+	mFire = !mFire;
+
 	std::random_device rd;
 	std::uniform_real_distribution<float> dist(-1, 1);
 
 	float angDiff = dist(rd) * (M_PI / 8.f);
 	auto p = Particles::MG_Casing;
-	p.Position = getFirePos();
+	p.Position = getFirePos() + (mFire ? sf::Vector2f(-10, 0) : sf::Vector2f(10, 0));
 	p.Velocity = sf::Vector2f(std::cos(getFireDir() + angDiff), std::sin(getFireDir() + angDiff)) * 200.f;
 	p.Rotation = dist(rd) * 5.f;
 
+	BulletManager::linearProjectile({
+		p.Position, getFireDir() + angDiff / 15.f, 1200, sf::Color(255,255,170), sf::FloatRect(0,0,4,10)
+	});
 	ParticleManager::addParticle(std::move(p));
-	//BulletManager::linearProjectile();
 }
 void Machinegun::onLevel()
 {
@@ -112,8 +117,10 @@ void HeavyMachinegun::fire()
 	p.Velocity = sf::Vector2f(std::cos(getFireDir() + angDiff), std::sin(getFireDir() + angDiff)) * 300.f;
 	p.Rotation = dist(rd) * 8.f;
 
+	BulletManager::linearProjectile({
+		p.Position, getFireDir() + angDiff / 10.f, 2400, sf::Color(190,190,0), sf::FloatRect(0,0,10,30)
+	});
 	ParticleManager::addParticle(std::move(p));
-	//BulletManager::linearProjectile();
 }
 void HeavyMachinegun::onLevel()
 {

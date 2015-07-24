@@ -1,6 +1,7 @@
 #include "GameState.hpp"
 
 #include <FX/Particles.hpp>
+#include <Game/Bullets.hpp>
 #include <Game/Player.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -25,11 +26,14 @@ void GameState::handle_event(sf::Event& ev)
 }
 void GameState::fixed_update(float dt)
 {
+	BulletManager::fixed_update(dt);
+
 	p.fixed_update(dt);
 }
 void GameState::variadic_update(float dt)
 {
 	ParticleManager::variadic_update(dt);
+	BulletManager::variadic_update(dt);
 	p.variadic_update(dt);
 
 	auto vec = mCamera.getCenter();
@@ -54,6 +58,10 @@ void GameState::draw(sf::RenderTarget& target)
 	// Draw ground entities
 
 	ParticleManager::draw(target, ParticleManager::Level_OverGround);
+
+	// Bullets are between air and ground
+	BulletManager::draw(target);
+
 	ParticleManager::draw(target, ParticleManager::Level_UnderAir);
 	// Draw air entities
 
