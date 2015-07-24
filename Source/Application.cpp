@@ -33,7 +33,7 @@ void Application::run()
 	mWindow.setFramerateLimit(200);
 #endif
 
-	mGameView = mWindow.getDefaultView();
+	mGameView = sf::View(sf::Vector2f(), sf::Vector2f(0, 2048));
 	mUIView = mWindow.getDefaultView();
 	{
 		sf::Vector2f size = (sf::Vector2f)mWindow.getSize();

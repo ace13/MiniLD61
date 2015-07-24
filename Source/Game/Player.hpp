@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Weapon.hpp"
+
+#include <SFML/System/Vector2.hpp>
+
 #include <list>
 
 namespace sf { struct Event; class RenderTarget; }
@@ -19,6 +22,7 @@ public:
 
 private:
 	float mHealth, mMaxHealth;
+	sf::Vector2f mPosition;
 
 	Weapon* mCurWeapon;
 	std::list<Weapon*> mWeapons;

@@ -1,22 +1,34 @@
 #include "Particles.hpp"
 
+#include <Util/Easing.hpp>
+
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 
-static ParticleManager& getSingleton()
+namespace
 {
-	static ParticleManager* sParticleManager = new ParticleManager;
+	Easers::Cubic sAlphaEaser;
+}
+
+ParticleManager& ParticleManager::getSingleton()
+{
+	static ParticleManager* sParticleManager = new ParticleManager();
 
 	return *sParticleManager;
 }
 
+ParticleManager::ParticleManager()
+{
+}
+
 void ParticleManager::addParticle(Particle&& p)
 {
-	auto it = std::lower_bound(mParticles.begin(), mParticles.end(), p);
+	p.StartLife = p.Life;
 
+	auto it = std::lower_bound(mParticles.begin(), mParticles.end(), p);
 	mParticles.insert(it, std::move(p));
 }
 void ParticleManager::clearParticles()
@@ -28,8 +40,11 @@ void ParticleManager::variadic_update(float dt)
 	for (auto it = mParticles.begin(); it != mParticles.end();)
 	{
 		it->Life -= dt;
+		it->Velocity.y = std::min(250.f, it->Velocity.y + 200.f*dt);
 		it->Position += it->Velocity * dt;
 		it->Angle += it->Rotation * dt;
+
+		it->Color.a = 255 * sAlphaEaser.Out(it->Life / it->StartLife);
 
 		if (it->Life <= 0)
 			it = mParticles.erase(it);
@@ -49,18 +64,19 @@ void ParticleManager::draw(sf::RenderTarget& target, Level l)
 		else if (p.Height > l)
 			break;
 
-		sf::Vector2f xcoord(std::cos(p.Angle) * 5, std::sin(p.Angle) * 5);
-		sf::Vector2f ycoord(std::cos(p.Angle - M_PI/2.f) * 5, std::sin(p.Angle - M_PI/2.f) * 5);
+		sf::Vector2f xcoord(std::cos(p.Angle), std::sin(p.Angle));
+		sf::Vector2f ycoord(std::cos(p.Angle - M_PI/2.f), std::sin(p.Angle - M_PI/2.f));
 
-		arr.append(sf::Vertex(p.Position - xcoord - ycoord, p.Color,
+		arr.append(sf::Vertex(p.Position - xcoord * p.Rect.width/2.f - ycoord * p.Rect.height/2.f, p.Color,
 		           sf::Vector2f(p.Rect.left, p.Rect.top)));
-		arr.append(sf::Vertex(p.Position + xcoord - ycoord, p.Color,
+		arr.append(sf::Vertex(p.Position + xcoord * p.Rect.width/2.f - ycoord * p.Rect.height/2.f, p.Color,
 		           sf::Vector2f(p.Rect.left + p.Rect.width, p.Rect.top)));
-		arr.append(sf::Vertex(p.Position - xcoord + ycoord, p.Color,
-		           sf::Vector2f(p.Rect.left, p.Rect.top + p.Rect.height)));
-		arr.append(sf::Vertex(p.Position + xcoord + ycoord, p.Color,
+		arr.append(sf::Vertex(p.Position + xcoord * p.Rect.width/2.f + ycoord * p.Rect.height/2.f, p.Color,
 		           sf::Vector2f(p.Rect.left + p.Rect.width, p.Rect.top + p.Rect.height)));
+		arr.append(sf::Vertex(p.Position - xcoord * p.Rect.width/2.f + ycoord * p.Rect.height/2.f, p.Color,
+		           sf::Vector2f(p.Rect.left, p.Rect.top + p.Rect.height)));
 	}
 
 	target.draw(arr);
 }
+

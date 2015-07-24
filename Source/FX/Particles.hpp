@@ -6,6 +6,7 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 #include <list>
+#include <random>
 
 class ParticleManager
 {
@@ -20,10 +21,6 @@ public:
 		Level_OverAir      // Over air based entities
 	};
 
-	class Emitter
-	{
-	};
-
 	struct Particle
 	{
 		Level Height;
@@ -34,6 +31,9 @@ public:
 		sf::Vector2f Velocity;
 
 		friend bool operator<(const Particle& l, const Particle& r) { return l.Height < r.Height; }
+
+		// This is set by the particle manager
+		float StartLife;
 	};
 
 	static ParticleManager& getSingleton();
@@ -45,13 +45,16 @@ public:
 	void draw(sf::RenderTarget& target, Level);
 
 private:
+	ParticleManager();
+
 	std::list<Particle> mParticles;
 };
 
 namespace Particles
 {
-	const ParticleManager::Particle Player_Casing = {
-		ParticleManager::Level_UnderAir, 0.5f, -M_PI/2.f, 0, sf::Color::Yellow,
-		sf::FloatRect(0,0,5,10), sf::Vector2f(), sf::Vector2f()
+	const ParticleManager::Particle Player_Casing {
+		ParticleManager::Level_UnderAir, 3.5f, 0, 0, sf::Color::Yellow,
+		sf::FloatRect(0,0,3,10), sf::Vector2f(), sf::Vector2f()
 	};
 }
+
