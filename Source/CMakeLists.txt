@@ -4,6 +4,7 @@ set( HEADERS
 	Game/Bullets.hpp
 	Game/Cloud.hpp
 	Game/Enemy.hpp
+	Game/Entity.hpp
 	Game/Level.hpp
 	Game/Player.hpp
 	Game/Powerup.hpp
