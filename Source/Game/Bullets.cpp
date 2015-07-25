@@ -36,7 +36,7 @@ void BulletManager::draw(sf::RenderTarget& target)
 		sf::Vector2f pos = p.Position;
 		sf::Color col = p.Color;
 
-		for (int i = 0; i < 6; ++i)
+		for (int i = 0; i < p.Trail; ++i)
 		{
 			arr.append(sf::Vertex(pos - xcoord * p.Rect.width/2.f - ycoord * p.Rect.height/2.f, col,
 					   sf::Vector2f(p.Rect.left, p.Rect.top)));
@@ -47,8 +47,8 @@ void BulletManager::draw(sf::RenderTarget& target)
 			arr.append(sf::Vertex(pos - xcoord * p.Rect.width/2.f + ycoord * p.Rect.height/2.f, col,
 					   sf::Vector2f(p.Rect.left, p.Rect.top + p.Rect.height)));
 
-			col.a = col.a - 50;
-			pos += ycoord * (p.Rect.height + 5);
+			col.a = col.a - 250 / p.Trail;
+			pos += ycoord * (p.Rect.height - 0.5f);
 		}
 	}
 

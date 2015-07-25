@@ -31,6 +31,7 @@ void CloudGenerator::fixed_update(float dt)
 			p.Angle = dist(rd) * M_PI;
 			p.Position = sf::Vector2f(baseXCoord, -2500) + sf::Vector2f(dist(rd) * 390, dist(rd) * 180);
 			p.Rotation = dist(rd) * 0.05f;
+			p.Scale = 1.75f + dist(rd) * 0.75f;
 
 			int t = type(rd);
 			p.Rect.top = 100 + (t / 2) * 200;

@@ -15,6 +15,8 @@ public:
 		float Angle, Speed;
 		sf::Color Color;
 		sf::FloatRect Rect;
+
+		int Trail;
 	};
 
 	struct SeekingProjectile

@@ -23,7 +23,7 @@ public:
 	struct Particle
 	{
 		Level Height;
-		float Life, Angle, Rotation;
+		float Life, Angle, Rotation, Scale;
 		sf::Color Color;
 		sf::FloatRect Rect;
 		sf::Vector2f Position;
@@ -50,15 +50,15 @@ private:
 namespace Particles
 {
 	const ParticleManager::Particle Cloud_Puff {
-		ParticleManager::Level_UnderAir, 10.f, 0, 0, sf::Color(179,179,179,179),
+		ParticleManager::Level_UnderAir, 10.f, 0, 0, 2.f, sf::Color(179,179,179,179),
 		sf::FloatRect(100,100,200,200), sf::Vector2f(), sf::Vector2f(0, 500)
 	};
 	const ParticleManager::Particle MG_Casing {
-		ParticleManager::Level_UnderAir, 3.5f, 0, 0, sf::Color(255,255,96),
+		ParticleManager::Level_UnderAir, 3.5f, 0, 0, 1.f, sf::Color(255,255,96),
 		sf::FloatRect(100,0,4,12), sf::Vector2f(), sf::Vector2f()
 	};
 	const ParticleManager::Particle HMG_Casing {
-		ParticleManager::Level_UnderAir, 5.5f, 0, 0, sf::Color(179,179,0),
+		ParticleManager::Level_UnderAir, 5.5f, 0, 0, 1.f, sf::Color(179,179,0),
 		sf::FloatRect(104,0,8,24), sf::Vector2f(), sf::Vector2f()
 	};
 }

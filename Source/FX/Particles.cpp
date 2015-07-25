@@ -64,13 +64,13 @@ void ParticleManager::draw(sf::RenderTarget& target, Level l)
 		sf::Vector2f xcoord(std::cos(p.Angle), std::sin(p.Angle));
 		sf::Vector2f ycoord(std::cos(p.Angle - M_PI/2.f), std::sin(p.Angle - M_PI/2.f));
 
-		arr.append(sf::Vertex(p.Position - xcoord * p.Rect.width/2.f - ycoord * p.Rect.height/2.f, p.Color,
+		arr.append(sf::Vertex(p.Position - xcoord * p.Rect.width/2.f * p.Scale - ycoord * p.Rect.height/2.f * p.Scale, p.Color,
 		           sf::Vector2f(p.Rect.left, p.Rect.top)));
-		arr.append(sf::Vertex(p.Position + xcoord * p.Rect.width/2.f - ycoord * p.Rect.height/2.f, p.Color,
+		arr.append(sf::Vertex(p.Position + xcoord * p.Rect.width/2.f * p.Scale - ycoord * p.Rect.height/2.f * p.Scale, p.Color,
 		           sf::Vector2f(p.Rect.left + p.Rect.width, p.Rect.top)));
-		arr.append(sf::Vertex(p.Position + xcoord * p.Rect.width/2.f + ycoord * p.Rect.height/2.f, p.Color,
+		arr.append(sf::Vertex(p.Position + xcoord * p.Rect.width/2.f * p.Scale + ycoord * p.Rect.height/2.f * p.Scale, p.Color,
 		           sf::Vector2f(p.Rect.left + p.Rect.width, p.Rect.top + p.Rect.height)));
-		arr.append(sf::Vertex(p.Position - xcoord * p.Rect.width/2.f + ycoord * p.Rect.height/2.f, p.Color,
+		arr.append(sf::Vertex(p.Position - xcoord * p.Rect.width/2.f * p.Scale + ycoord * p.Rect.height/2.f * p.Scale, p.Color,
 		           sf::Vector2f(p.Rect.left, p.Rect.top + p.Rect.height)));
 	}
 
