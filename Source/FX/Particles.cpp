@@ -43,7 +43,7 @@ void ParticleManager::variadic_update(float dt)
 
 		it->Color.a = 255 * sAlphaEaser.Out(it->Life / it->StartLife);
 
-		if (it->Life <= 0)
+		if (it->Life <= 0 || it->Position.y > 1000)
 			it = mParticles.erase(it);
 		else
 			++it;
