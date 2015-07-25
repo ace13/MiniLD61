@@ -11,22 +11,32 @@ class BulletManager
 public:
 	struct LinearProjectile
 	{
+		// Source entity
 		sf::Vector2f Position;
 		float Angle, Speed;
 		sf::Color Color;
 		sf::FloatRect Rect;
-
 		int Trail;
 	};
 
 	struct SeekingProjectile
 	{
-
+		// Source entity
+		sf::Vector2f Position;
+		// Target entity
+		float Speed;
+		sf::Color Color;
+		sf::FloatRect Rect;
+		sf::FloatRect TrailRect;
+		int TrailLength;
 	};
 
 	struct LinearBeam
 	{
-
+		sf::Vector2f Position;
+		float Angle;
+		sf::Color Color;
+		sf::FloatRect Rect;
 	};
 
 	static void fixed_update(float dt);

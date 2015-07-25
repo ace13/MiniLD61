@@ -81,8 +81,8 @@ void Weapon::setFireRate(float rate)
 	mFireRate = rate;
 }
 
-using namespace Weapons;
 
+using namespace Weapons;
 
 void Machinegun::fire()
 {
@@ -93,8 +93,8 @@ void Machinegun::fire()
 
 	float angDiff = dist(rd) * (M_PI / 7.5f);
 	auto p = Particles::MG_Casing;
-	p.Position = getFirePos() + (mFire ? sf::Vector2f(75, 150) : sf::Vector2f(-75, 150));
-	p.Velocity = sf::Vector2f(std::cos(getFireDir() + angDiff), std::sin(getFireDir() + angDiff)) * 200.f;
+	p.Position = getFirePos() + (mFire ? sf::Vector2f(75, 175) : sf::Vector2f(-75, 175));
+	p.Velocity = sf::Vector2f(std::cos(getFireDir() + angDiff), std::sin(getFireDir() + angDiff)) * 100.f;
 	p.Rotation = dist(rd) * 5.f;
 
 	BulletManager::linearProjectile({
@@ -114,7 +114,7 @@ void HeavyMachinegun::fire()
 	float angDiff = dist(rd) * (M_PI / 12.f);
 	auto p = Particles::HMG_Casing;
 	p.Position = getFirePos();
-	p.Velocity = sf::Vector2f(std::cos(getFireDir() + angDiff), std::sin(getFireDir() + angDiff)) * 300.f;
+	p.Velocity = sf::Vector2f(std::cos(getFireDir() + angDiff), std::sin(getFireDir() + angDiff)) * 200.f;
 	p.Rotation = dist(rd) * 8.f;
 
 	BulletManager::linearProjectile({
@@ -124,5 +124,5 @@ void HeavyMachinegun::fire()
 }
 void HeavyMachinegun::onLevel()
 {
-	setFireRate(1.f / (1 + getLevel()));
+	setFireRate(1.f / (1 + getLevel() / 2));
 }

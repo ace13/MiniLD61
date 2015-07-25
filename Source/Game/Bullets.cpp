@@ -24,6 +24,7 @@ void BulletManager::fixed_update(float dt)
 }
 void BulletManager::variadic_update(float dt)
 {
+	// TODO: Smooth bullet travel
 }
 void BulletManager::draw(sf::RenderTarget& target)
 {
@@ -39,13 +40,13 @@ void BulletManager::draw(sf::RenderTarget& target)
 		for (int i = 0; i < p.Trail; ++i)
 		{
 			arr.append(sf::Vertex(pos - xcoord * p.Rect.width/2.f - ycoord * p.Rect.height/2.f, col,
-					   sf::Vector2f(p.Rect.left, p.Rect.top)));
+			           sf::Vector2f(p.Rect.left, p.Rect.top)));
 			arr.append(sf::Vertex(pos + xcoord * p.Rect.width/2.f - ycoord * p.Rect.height/2.f, col,
-					   sf::Vector2f(p.Rect.left + p.Rect.width, p.Rect.top)));
+			           sf::Vector2f(p.Rect.left + p.Rect.width, p.Rect.top)));
 			arr.append(sf::Vertex(pos + xcoord * p.Rect.width/2.f + ycoord * p.Rect.height/2.f, col,
-					   sf::Vector2f(p.Rect.left + p.Rect.width, p.Rect.top + p.Rect.height)));
+			           sf::Vector2f(p.Rect.left + p.Rect.width, p.Rect.top + p.Rect.height)));
 			arr.append(sf::Vertex(pos - xcoord * p.Rect.width/2.f + ycoord * p.Rect.height/2.f, col,
-					   sf::Vector2f(p.Rect.left, p.Rect.top + p.Rect.height)));
+			           sf::Vector2f(p.Rect.left, p.Rect.top + p.Rect.height)));
 
 			col.a = col.a - 250 / p.Trail;
 			pos += ycoord * (p.Rect.height - 0.5f);
