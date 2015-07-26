@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Entity.hpp"
+
 namespace sf { class RenderTarget; }
 
-class Enemy
+class Enemy : public Entity
 {
 public:
 	enum Type
@@ -32,6 +34,10 @@ public:
 	virtual void fixed_update(float dt);
 	virtual void variadic_update(float dt);
 	virtual void draw(sf::RenderTarget& target);
+
+	const sf::Vector2f& getPosition() const;
+	virtual float getRadius() const;
+	Team getTeam() const { return Team_Enemy; }
 
 	float getHealth() const;
 	void damage(float dmg);
@@ -70,6 +76,6 @@ namespace Enemies
 		void draw(sf::RenderTarget& target);
 
 	private:
-	}
+	};
 }
 

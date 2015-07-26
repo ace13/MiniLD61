@@ -142,7 +142,7 @@ void HeavyMachinegun::onLevel()
 }
 void Missiles::fire()
 {
-	for (bool f = false; f; f=!f)
+	for (bool f = true; f; f=!f)
 	{
 		BulletManager::seekingProjectile({
 			getOwner(), getFirePos() + (f ? sf::Vector2f(75, 175) : sf::Vector2f(-75, 175)),
