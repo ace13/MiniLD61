@@ -23,7 +23,10 @@ Player::Player() :
 	mWeapons.push_back(new Weapons::HeavyMachinegun);
 
 	for (auto& w : mWeapons)
+	{
+		w->setOwner(this);
 		w->init();
+	}
 
 	mCurWeapon = mWeapons.front();
 }

@@ -1,4 +1,5 @@
 #include "Weapon.hpp"
+#include "Entity.hpp"
 
 #include "Bullets.hpp"
 #include <FX/Particles.hpp>
@@ -7,8 +8,8 @@
 #include <cmath>
 
 Weapon::Weapon() :
-	mFiring(false), mLevel(1), mFireAng(M_PI / -2.f),
-	mFireRate(-1), mCooldown(0)
+	mOwner(nullptr), mFiring(false), mLevel(1),
+	mFireAng(M_PI / -2.f), mFireRate(-1), mCooldown(0)
 {
 }
 
@@ -72,6 +73,15 @@ const sf::Vector2f& Weapon::getFirePos() const
 	return mFirePos;
 }
 
+void Weapon::setOwner(Entity* ent)
+{
+	mOwner = ent;
+}
+Entity* Weapon::getOwner() const
+{
+	return mOwner;
+}
+
 void Weapon::onLevel()
 {
 }
@@ -81,6 +91,10 @@ void Weapon::setFireRate(float rate)
 	mFireRate = rate;
 }
 
+
+/*
+ *  Weapons
+ */
 
 using namespace Weapons;
 
@@ -98,7 +112,7 @@ void Machinegun::fire()
 	p.Rotation = dist(rd) * 5.f;
 
 	BulletManager::linearProjectile({
-		p.Position, getFireDir() + angDiff / 15.f, 1200, sf::Color(255,255,170), sf::FloatRect(0,0,4,15), 3
+		getOwner(), p.Position, getFireDir() + angDiff / 15.f, 1200, sf::Color(255,255,170), sf::FloatRect(0,0,4,15), 3
 	});
 	ParticleManager::addParticle(std::move(p));
 }
@@ -118,11 +132,25 @@ void HeavyMachinegun::fire()
 	p.Rotation = dist(rd) * 8.f;
 
 	BulletManager::linearProjectile({
-		p.Position, getFireDir() + angDiff / 10.f, 2400, sf::Color(190,190,0), sf::FloatRect(0,0,10,30), 8
+		getOwner(), p.Position, getFireDir() + angDiff / 10.f, 2400, sf::Color(190,190,0), sf::FloatRect(0,0,10,30), 8
 	});
 	ParticleManager::addParticle(std::move(p));
 }
 void HeavyMachinegun::onLevel()
 {
 	setFireRate(1.f / (1 + getLevel() / 2));
+}
+void Missiles::fire()
+{
+	for (bool f = false; f; f=!f)
+	{
+		BulletManager::seekingProjectile({
+			getOwner(), getFirePos() + (f ? sf::Vector2f(75, 175) : sf::Vector2f(-75, 175)),
+			nullptr, 200.f, sf::Color::Yellow, sf::FloatRect(0,0,15,50), sf::FloatRect(0,0,10,5), 10
+		});
+	}
+}
+void Missiles::onLevel()
+{
+	setFireRate(1.f / (1 + getLevel() / 4));
 }

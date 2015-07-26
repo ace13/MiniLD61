@@ -12,8 +12,6 @@ class ParticleManager
 public:
 	enum Level
 	{
-		Level_UnderWater,  // Under water based entities
-		Level_OverWater,   // Over water based entities
 		Level_UnderGround, // Under ground based entities
 		Level_OverGround,  // Over ground based entities
 		Level_UnderAir,    // Under air based entities

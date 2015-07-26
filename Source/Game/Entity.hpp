@@ -1,6 +1,6 @@
 #pragma once
 
-namespace sf { struct Vector2f; }
+#include <SFML/System/Vector2.hpp>
 
 class Entity
 {
@@ -12,7 +12,7 @@ public:
 		Team_Neutral
 	};
 
-	const sf::Vector2f& getPosition() const = 0;
-	float getRadius() const = 0;
-	Team getTeam() const = 0;
+	virtual const sf::Vector2f& getPosition() const = 0;
+	virtual float getRadius() const = 0;
+	virtual Team getTeam() const = 0;
 };

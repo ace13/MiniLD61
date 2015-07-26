@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Entity.hpp"
+
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -11,7 +13,7 @@ class BulletManager
 public:
 	struct LinearProjectile
 	{
-		// Source entity
+		Entity* Source;
 		sf::Vector2f Position;
 		float Angle, Speed;
 		sf::Color Color;
@@ -21,9 +23,9 @@ public:
 
 	struct SeekingProjectile
 	{
-		// Source entity
+		Entity* Source;
 		sf::Vector2f Position;
-		// Target entity
+		Entity* Target;
 		float Speed;
 		sf::Color Color;
 		sf::FloatRect Rect;
@@ -33,6 +35,7 @@ public:
 
 	struct LinearBeam
 	{
+		Entity* Source;
 		sf::Vector2f Position;
 		float Angle;
 		sf::Color Color;

@@ -3,6 +3,7 @@
 #include <FX/Particles.hpp>
 #include <Game/Bullets.hpp>
 #include <Game/Cloud.hpp>
+#include <Game/Level.hpp>
 #include <Game/Player.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -55,13 +56,12 @@ void GameState::draw(sf::RenderTarget& target)
 	target.setView(mCamera);
 
 	target.clear(sf::Color(22,67,126));
+	// target.clear(Level::getGround().Color);
+	// Level::draw(target);
 
-	ParticleManager::draw(target, ParticleManager::Level_UnderWater);
-	// Draw water entitie
-
-	ParticleManager::draw(target, ParticleManager::Level_OverWater);
 	ParticleManager::draw(target, ParticleManager::Level_UnderGround);
 	// Draw ground entities
+	// EntityManager::draw(target, EntityManager::Level_Ground);
 
 	ParticleManager::draw(target, ParticleManager::Level_OverGround);
 	ParticleManager::draw(target, ParticleManager::Level_UnderAir);
@@ -69,6 +69,7 @@ void GameState::draw(sf::RenderTarget& target)
 	BulletManager::draw(target);
 
 	// Draw air entities
+	// EntityManager::draw(target, EntityManager::Level_Air);
 
 	// Player always on top
 	p.draw(target);

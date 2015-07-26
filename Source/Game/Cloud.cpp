@@ -20,7 +20,7 @@ void CloudGenerator::fixed_update(float dt)
 		std::uniform_real_distribution<float> dist(-1, 1);
 		std::uniform_int_distribution<int> type(0, 3);
 		std::uniform_int_distribution<int> puffs(9, 34);
-		std::uniform_int_distribution<int> color(122, 222);
+		std::uniform_int_distribution<int> color(152, 222);
 
 		float baseXCoord = dist(rd) * 2000.f;
 

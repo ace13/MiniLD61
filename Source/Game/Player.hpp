@@ -1,14 +1,13 @@
 #pragma once
 
+#include "Entity.hpp"
 #include "Weapon.hpp"
-
-#include <SFML/System/Vector2.hpp>
 
 #include <list>
 
 namespace sf { struct Event; class RenderTarget; }
 
-class Player
+class Player : public Entity
 {
 public:
 	Player();
@@ -21,6 +20,8 @@ public:
 	void drawUI(sf::RenderTarget& target);
 
 	const sf::Vector2f& getPosition() const;
+	float getRadius() const { return 250.f; }
+	Team getTeam() const { return Team_Player; }
 
 private:
 	float mHealth, mMaxHealth;

@@ -5,6 +5,7 @@
 #include <string>
 
 namespace sf { class RenderTarget; }
+class Entity;
 
 class Weapon
 {
@@ -31,13 +32,17 @@ public:
 	void setFirePos(const sf::Vector2f& firePos);
 	const sf::Vector2f& getFirePos() const;
 
+	void setOwner(Entity* ent);
+
 protected:
 	virtual void onLevel();
 	virtual void fire() = 0;
 
+	Entity* getOwner() const;
 	void setFireRate(float rate);
 
 private:
+	Entity* mOwner;
 	bool mFiring;
 	int mLevel;
 	float mFireAng, mFireRate, mCooldown;
@@ -70,5 +75,15 @@ namespace Weapons
 		virtual void onLevel();
 		virtual void fire();
 	};
-}
 
+	class Missiles : public Weapon
+	{
+	public:
+		std::string getName() const { return "Missiles"; }
+		std::string getSprite() const { return "Weapon/Missiles.png"; }
+
+	protected:
+		virtual void onLevel();
+		virtual void fire();
+	};
+}
